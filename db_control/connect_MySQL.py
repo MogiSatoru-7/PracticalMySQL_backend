@@ -1,3 +1,4 @@
+from pathlib import Path
 from sqlalchemy import create_engine
 
 import os
@@ -17,7 +18,9 @@ DB_NAME = os.getenv('DB_NAME')
 DATABASE_URL = f"mysql+pymysql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
 
 # SSL_CA_PATH = os.getenv('SSL_CA_PATH')
-SSL_CA_PATH = "backend/DigiCertGlobalRootCA.crt (1).pem"
+# カレントディレクトリから絶対パスを取得（安全）
+BASE_DIR = Path(__file__).resolve().parent.parent  # ← 1つ上が「backend」フォルダ
+SSL_CA_PATH = str(BASE_DIR / "DigiCertGlobalRootCA.crt.pem")
 
 # エンジンの作成
 engine = create_engine(
